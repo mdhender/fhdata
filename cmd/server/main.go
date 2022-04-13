@@ -29,6 +29,7 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"path/filepath"
 )
 
 func main() {
@@ -39,7 +40,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	s, err := NewServer(host, port, WithStore(cluster), WithTemplates("..\\templates"))
+	s, err := NewServer(host, port, WithStore(cluster), WithTemplates(filepath.Join("..", "templates")))
 	if err != nil {
 		log.Fatal(err)
 	}
