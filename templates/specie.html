@@ -103,7 +103,146 @@
 <p>This species has no colonies.</p>
 {{end}}
 <h2>Starbases</h2>
+{{with .Ships}}
+<table>
+  <thead>
+  <tr>
+    <td>ID</td>
+    <td>Class</td>
+    <td>Name</td>
+    <td>Coords</td>
+    <td>Orbit</td>
+    <td>Age</td>
+    <td>Tonnage</td>
+    <td>Cargo Capacity</td>
+    <td>Inventory</td>
+  </tr>
+  </thead>
+  <tbody>
+  {{range .}}
+  {{if eq "BA" .Class}}
+  <tr>
+    <td><a href="/specie/{{.Species.Id}}/ship{{.Id}}">{{.Id}}</a></td>
+    <td>{{.Class}}{{if .SubLight}}S{{end}}</td>
+    <td>{{.Name}}</td>
+    <td>{{if .Location.System}}<a href="/system/{{.Location.System.Id}}">{{end}}{{.Coords}}{{if .Location.System}}</a>{{end}}</td>
+    <td align="right">{{if .Location.Planet}}<a href="/planet/{{.Location.Planet.Id}}">{{end}}#{{.Orbit}}{{if .Location.Planet}}</a>{{end}}</td>
+    <td align="right">{{.Age}}</td>
+    <td align="right">{{.Tonnage}}</td>
+    <td align="right">{{.CargoCapacity}}</td>
+    <td>
+      {{with .Inventory}}
+      <table>
+        <thead>
+        <tr><td>Code</td><td>Descr</td><td>Quantity</td></tr>
+        </thead>
+        <tbody>
+        {{range .}}
+        <tr><td>{{.Code}}</td><td>{{.Name}}</td><td align="right">{{.Quantity}}</td></tr>
+        {{end}}
+        </tbody>
+      </table>
+      {{end}}
+    </td>
+  </tr>
+  {{end}}
+  {{end}}
+  </tbody>
+</table>
+{{end}}
 <h2>Warships</h2>
+{{with .Ships}}
+<table>
+  <thead>
+  <tr>
+    <td>ID</td>
+    <td>Class</td>
+    <td>Name</td>
+    <td>Coords</td>
+    <td>Orbit</td>
+    <td>Age</td>
+    <td>Tonnage</td>
+    <td>Cargo Capacity</td>
+    <td>Inventory</td>
+  </tr>
+  </thead>
+  <tbody>
+  {{range .}}
+  {{if and (ne "BA" .Class) (ne "TR" .Class)}}
+  <tr>
+    <td><a href="/specie/{{.Species.Id}}/ship{{.Id}}">{{.Id}}</a></td>
+    <td>{{.Class}}{{if .SubLight}}S{{end}}</td>
+    <td>{{.Name}}</td>
+    <td>{{if .Location.System}}<a href="/system/{{.Location.System.Id}}">{{end}}{{.Coords}}{{if .Location.System}}</a>{{end}}</td>
+    <td align="right">{{if .Location.Planet}}<a href="/planet/{{.Location.Planet.Id}}">{{end}}#{{.Orbit}}{{if .Location.Planet}}</a>{{end}}</td>
+    <td align="right">{{.Age}}</td>
+    <td align="right">{{.Tonnage}}</td>
+    <td align="right">{{.CargoCapacity}}</td>
+    <td>
+      {{with .Inventory}}
+      <table>
+        <thead>
+        <tr><td>Code</td><td>Descr</td><td>Quantity</td></tr>
+        </thead>
+        <tbody>
+        {{range .}}
+        <tr><td>{{.Code}}</td><td>{{.Name}}</td><td align="right">{{.Quantity}}</td></tr>
+        {{end}}
+        </tbody>
+      </table>
+      {{end}}
+    </td>
+  </tr>
+  {{end}}
+  {{end}}
+  </tbody>
+</table>
+{{end}}
 <h2>Transports</h2>
+{{with .Ships}}
+<table>
+  <thead>
+  <tr>
+    <td>ID</td>
+    <td>Class</td>
+    <td>Name</td>
+    <td>Coords</td>
+    <td>Orbit</td>
+    <td>Age</td>
+    <td>Cargo Capacity</td>
+    <td>Inventory</td>
+  </tr>
+  </thead>
+  <tbody>
+  {{range .}}
+  {{if eq "TR" .Class}}
+  <tr>
+    <td><a href="/specie/{{.Species.Id}}/ship{{.Id}}">{{.Id}}</a></td>
+    <td>{{.Class}}{{.Size}}{{if .SubLight}}S{{end}}</td>
+    <td>{{.Name}}</td>
+    <td>{{if .Location.System}}<a href="/system/{{.Location.System.Id}}">{{end}}{{.Coords}}{{if .Location.System}}</a>{{end}}</td>
+    <td align="right">{{if .Location.Planet}}<a href="/planet/{{.Location.Planet.Id}}">{{end}}#{{.Orbit}}{{if .Location.Planet}}</a>{{end}}</td>
+    <td align="right">{{.Age}}</td>
+    <td align="right">{{.CargoCapacity}}</td>
+    <td>
+      {{with .Inventory}}
+      <table>
+        <thead>
+        <tr><td>Code</td><td>Descr</td><td>Quantity</td></tr>
+        </thead>
+        <tbody>
+        {{range .}}
+        <tr><td>{{.Code}}</td><td>{{.Name}}</td><td align="right">{{.Quantity}}</td></tr>
+        {{end}}
+        </tbody>
+      </table>
+      {{end}}
+    </td>
+  </tr>
+  {{end}}
+  {{end}}
+  </tbody>
+</table>
+{{end}}
 </body>
 </html>
