@@ -98,7 +98,7 @@ func LoadFromPath(dataPath string, bo binary.ByteOrder) (*Cluster, error) {
 		if star.WormHere == 0 {
 			continue
 		}
-		coords := Coords{X: int(star.X), Y: int(star.Y), Z: int(star.Z)}
+		coords := Coords{X: int(star.WormX), Y: int(star.WormY), Z: int(star.WormZ)}
 		for _, system := range cluster.Systems {
 			if coords.Equals(system.Coords) {
 				cluster.Systems[i].WormholeExit = system
@@ -274,6 +274,7 @@ func LoadFromPath(dataPath string, bo binary.ByteOrder) (*Cluster, error) {
 				if colony.Coords.Equals(planet.Coords) && colony.Orbit == planet.Orbit {
 					colony.Planet = planet
 					colony.System = planet.System
+					planet.Colonies = append(planet.Colonies, colony)
 					break
 				}
 			}
@@ -334,6 +335,7 @@ func LoadFromPath(dataPath string, bo binary.ByteOrder) (*Cluster, error) {
 		for n, species := range cluster.Species {
 			spNo := n + 1
 			if hasVisited := speciesBitIsSet(star.VisitedBy, spNo); hasVisited {
+				system.VisitedBy[species.Name] = species
 				species.SystemsVisited = append(species.SystemsVisited, system)
 			}
 			hasScanned := false

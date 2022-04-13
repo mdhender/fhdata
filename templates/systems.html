@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FHData</title>
+  <style media="screen">
+    table {
+      border: 2px solid black;
+    }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="/home">Home</a> | Systems | <a href="/planets">Planets</a> | <a href="/species">Species</a>
+</nav>
+<h1>Systems</h1>
+<table>
+  <thead>
+    <tr>
+      <td>ID</td>
+      <td>Coords</td>
+      <td># Planets</td>
+      <td># Visitors</td>
+      <td># Scanners</td>
+      <td>Wormhole Exit</td>
+    </tr>
+  </thead>
+  <tbody>
+    {{range .Systems}}
+    <tr>
+      <td>{{.Id}}</td>
+      <td><a href="/system/{{.Id}}">{{.Coords}}</a></td>
+      <td>{{len .Planets}}</td>
+      <td>{{len .VisitedBy}}</td>
+      <td>{{len .ScannedBy}}</td>
+      <td>{{with .WormholeExit}}<a href="/system/{{.Id}}">{{.Coords}}</a>{{end}}</td>
+    </tr>
+    {{end}}
+  </tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FHData</title>
+  <style media="screen">
+    table {
+      border: 2px solid black;
+    }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="/home">Home</a> | <a href="/systems">Systems</a> | <a href="/planets">Planets</a> | <a href="/species">Species</a>
+</nav>
+<h1>Species {{.Id}} {{.Name}}</h1>
+<table>
+  <thead>
+  <tr>
+    <td>ID</td>
+    <td>Name</td>
+    <td>MI</td>
+    <td>MA</td>
+    <td>ML</td>
+    <td>GV</td>
+    <td>LS</td>
+    <td>BI</td>
+    <td>Systems Visited</td>
+    <td>Colonies</td>
+    <td>Ships</td>
+    <td>Production</td>
+    <td>EUs Banked</td>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td><a href="/specie/{{.Id}}">{{.Id}}</a></td>
+    <td>{{.Name}}</td>
+    <td align="right">{{.MI.CurrentLevel}}</td>
+    <td align="right">{{.MA.CurrentLevel}}</td>
+    <td align="right">{{.ML.CurrentLevel}}</td>
+    <td align="right">{{.GV.CurrentLevel}}</td>
+    <td align="right">{{.LS.CurrentLevel}}</td>
+    <td align="right">{{.BI.CurrentLevel}}</td>
+    <td align="right">{{len .SystemsVisited}}</td>
+    <td align="right">{{len .Colonies}}</td>
+    <td align="right">{{len .Ships}}</td>
+    <td align="right">{{.EconUnitsProduced}}</td>
+    <td align="right">{{.EconUnitsBanked}}</td>
+  </tr>
+  </tbody>
+</table>
+<h2>Colonies</h2>
+{{with .Colonies}}
+<table>
+  <thead>
+  <tr>
+    <td>ID</td>
+    <td>Name</td>
+    <td>Coords</td>
+    <td>Orbit</td>
+    <td>LSN</td>
+    <td>Population</td>
+    <td>MI Base</td>
+    <td>MA Base</td>
+    <td>Production</td>
+    <td>Inventory</td>
+    <td>Warnings</td>
+  </tr>
+  </thead>
+  <tbody>
+  {{range .}}
+  <tr>
+    <td><a href="/specie/{{.Species.Id}}/colony{{.Id}}">{{.Id}}</a></td>
+    <td>{{.Name}}</td>
+    <td><a href="/system/{{.System.Id}}">{{.Coords}}</a></td>
+    <td align="right"><a href="/planet/{{.Planet.Id}}">#{{.Orbit}}</a></td>
+    <td align="right">{{.LSN}}</td>
+    <td align="right">{{.PopulationUnits}}</td>
+    <td align="right">{{.MiningBase}}</td>
+    <td align="right">{{.ManufacturingBase}}</td>
+    <td align="right">{{.Production}}</td>
+    <td>
+      {{with .Inventory}}
+      <table>
+        <thead>
+        <tr><td>Code</td><td>Descr</td><td>Quantity</td></tr>
+        </thead>
+        <tbody>
+        {{range .}}
+        <tr><td>{{.Code}}</td><td>{{.Name}}</td><td align="right">{{.Quantity}}</td></tr>
+        {{end}}
+        </tbody>
+      </table>
+      {{end}}
+    </td>
+    <td>{{if eq 1 (len .Planet.Colonies)}} {{else}}shared{{end}}</td>
+  </tr>
+  {{end}}
+  </tbody>
+</table>
+{{else}}
+<p>This species has no colonies.</p>
+{{end}}
+<h2>Starbases</h2>
+<h2>Warships</h2>
+<h2>Transports</h2>
+</body>
+</html>

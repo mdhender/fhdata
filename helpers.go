@@ -226,6 +226,50 @@ func codeToShipClass(code int) string {
 	}
 }
 
+// codeToShipCost returns the original cost to build the ship
+func codeToShipCost(code int, tonnage int) int {
+	switch code {
+	case 0: // PB
+		return 100
+	case 1: // CT
+		return 200
+	case 2: // ES
+		return 500
+	case 3: // FF
+		return 1_000
+	case 4: // DD
+		return 1_500
+	case 5: // CL
+		return 2_000
+	case 6: // CS
+		return 2_500
+	case 7: // CA
+		return 3_000
+	case 8: // CC
+		return 3_500
+	case 9: // BC
+		return 4_000
+	case 10: // BS
+		return 4_500
+	case 11: // DN
+		return 5_000
+	case 12: // SD
+		return 5_500
+	case 13: // BM
+		return 6_000
+	case 14: // BW
+		return 6_500
+	case 15: // BS
+		return 7_000
+	case 16: // Starbase
+		return 100 * tonnage
+	case 17: // Transport
+		return 100 * tonnage
+	default:
+		return 0
+	}
+}
+
 // codeToShipSize returns the ship size based on class and tonnage
 func codeToShipSize(code int, tonnage int) int {
 	switch code {

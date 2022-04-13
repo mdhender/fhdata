@@ -32,6 +32,7 @@ import (
 	"net"
 	"net/http"
 	"path/filepath"
+	"strconv"
 	"time"
 )
 
@@ -52,7 +53,13 @@ func NewServer(host, port string, opts ...func(*Server) error) (*Server, error) 
 	}
 
 	s.router.HandleFunc("GET", "/manifest.json", s.manifestJsonV3)
-	s.router.HandleFunc("GET", "/", s.getIndex())
+	s.router.HandleFunc("GET", "/home", s.getHome())
+	s.router.HandleFunc("GET", "/planets", s.getPlanets())
+	s.router.HandleFunc("GET", "/planet/:id", s.getPlanet())
+	s.router.HandleFunc("GET", "/species", s.getSpecies())
+	s.router.HandleFunc("GET", "/specie/:id", s.getSpecie())
+	s.router.HandleFunc("GET", "/systems", s.getSystems())
+	s.router.HandleFunc("GET", "/system/:id", s.getSystem())
 	s.router.NotFound = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 	})
@@ -99,19 +106,123 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	s.router.ServeHTTP(w, r)
 }
 
-func (s *Server) getIndex() http.HandlerFunc {
+func (s *Server) getHome() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		log.Printf("getIndex: %s %s\n", r.Method, r.URL.Path)
-		if r.Method != "GET" {
-			log.Printf("getIndex: %s %s: method not allowed\n", r.Method, r.URL.Path)
-			http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
-		} else if b, err := s.render("index", s.data); err != nil {
-			log.Printf("getIndex: %s %s: %+v\n", r.Method, r.URL.Path, err)
+		log.Printf("getHome: %s %s\n", r.Method, r.URL.Path)
+		b, err := s.render("home", s.data)
+		if err != nil {
+			log.Printf("getHome: %s %s: %+v\n", r.Method, r.URL.Path, err)
 			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-		} else {
-			w.Header().Set("Content-Type", "text/html; charset=utf-8")
-			_, _ = w.Write(b)
+			return
 		}
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		_, _ = w.Write(b)
+	}
+}
+
+func (s *Server) getPlanet() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("getPlanet: %s %s\n", r.Method, r.URL.Path)
+		id, err := strconv.Atoi(way.Param(r.Context(), "id"))
+		if err != nil || !(0 < id && id <= len(s.data.Planets)) {
+			//log.Printf("getPlanet: %s %s: %+v\n", r.Method, r.URL.Path, err)
+			http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+			return
+		}
+		planet := s.data.Planets[id-1]
+		b, err := s.render("planet", planet)
+		if err != nil {
+			log.Printf("getPlanet: %s %s: %+v\n", r.Method, r.URL.Path, err)
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		_, _ = w.Write(b)
+	}
+}
+
+func (s *Server) getPlanets() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("getPlanets: %s %s\n", r.Method, r.URL.Path)
+		b, err := s.render("planets", s.data)
+		if err != nil {
+			log.Printf("getPlanets: %s %s: %+v\n", r.Method, r.URL.Path, err)
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		_, _ = w.Write(b)
+	}
+}
+
+func (s *Server) getSpecie() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("getSpecie: %s %s\n", r.Method, r.URL.Path)
+		id, err := strconv.Atoi(way.Param(r.Context(), "id"))
+		if err != nil || !(0 < id && id <= len(s.data.Species)) {
+			log.Printf("getSpecie: %s %s: %+v\n", r.Method, r.URL.Path, err)
+			log.Printf("getSpecie: %s %s: len(s.data.Species) %d id %q\n", r.Method, r.URL.Path, len(s.data.Species), way.Param(r.Context(), "id"))
+			http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+			return
+		}
+		specie := s.data.Species[id-1]
+		b, err := s.render("specie", specie)
+		if err != nil {
+			log.Printf("getSpecie: %s %s: %+v\n", r.Method, r.URL.Path, err)
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		_, _ = w.Write(b)
+	}
+}
+
+func (s *Server) getSpecies() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("getSpecies: %s %s\n", r.Method, r.URL.Path)
+		b, err := s.render("species", s.data)
+		if err != nil {
+			log.Printf("getSpecies: %s %s: %+v\n", r.Method, r.URL.Path, err)
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		_, _ = w.Write(b)
+	}
+}
+
+func (s *Server) getSystem() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("getSystem: %s %s\n", r.Method, r.URL.Path)
+		id, err := strconv.Atoi(way.Param(r.Context(), "id"))
+		if err != nil || !(0 < id && id <= len(s.data.Systems)) {
+			//log.Printf("getSystem: %s %s: %+v\n", r.Method, r.URL.Path, err)
+			http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+			return
+		}
+		system := s.data.Systems[id-1]
+		b, err := s.render("system", system)
+		if err != nil {
+			log.Printf("getSystem: %s %s: %+v\n", r.Method, r.URL.Path, err)
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		_, _ = w.Write(b)
+	}
+}
+
+func (s *Server) getSystems() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("getSystems: %s %s\n", r.Method, r.URL.Path)
+		b, err := s.render("systems", s.data)
+		if err != nil {
+			log.Printf("getSystems: %s %s: %+v\n", r.Method, r.URL.Path, err)
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		_, _ = w.Write(b)
 	}
 }
 

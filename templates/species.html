@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FHData</title>
+  <style media="screen">
+    table {
+      border: 2px solid black;
+    }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="/home">Home</a> | <a href="/systems">Systems</a> | <a href="/planets">Planets</a> | Species
+</nav>
+<h1>Species</h1>
+<table>
+  <thead>
+    <tr>
+      <td>ID</td>
+      <td>Name</td>
+      <td>MI</td>
+      <td>MA</td>
+      <td>ML</td>
+      <td>GV</td>
+      <td>LS</td>
+      <td>BI</td>
+      <td>Systems Visited</td>
+      <td>Colonies</td>
+      <td>Ships</td>
+      <td>Production</td>
+      <td>EUs Banked</td>
+    </tr>
+  </thead>
+  <tbody>
+  {{range .Species}}
+    <tr>
+      <td><a href="/specie/{{.Id}}">{{.Id}}</a></td>
+      <td>{{.Name}}</td>
+      <td align="right">{{.MI.CurrentLevel}}</td>
+      <td align="right">{{.MA.CurrentLevel}}</td>
+      <td align="right">{{.ML.CurrentLevel}}</td>
+      <td align="right">{{.GV.CurrentLevel}}</td>
+      <td align="right">{{.LS.CurrentLevel}}</td>
+      <td align="right">{{.BI.CurrentLevel}}</td>
+      <td align="right">{{len .SystemsVisited}}</td>
+      <td align="right">{{len .Colonies}}</td>
+      <td align="right">{{len .Ships}}</td>
+      <td align="right">{{.EconUnitsProduced}}</td>
+      <td align="right">{{.EconUnitsBanked}}</td>
+    </tr>
+  {{end}}
+  </tbody>
+</table>
+</body>
+</html>

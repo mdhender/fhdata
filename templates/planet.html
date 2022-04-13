@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FHData</title>
+  <style media="screen">
+    table {
+      border: 2px solid black;
+    }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="/home">Home</a> | <a href="/systems">Systems</a> | <a href="/planets">Planets</a> | <a href="/species">Species</a>
+</nav>
+<h1>Planet {{.Id}}</h1>
+<table>
+  <tbody>
+    <tr><td>ID</td><td><a href="/planet/{{.Id}}">{{.Id}}</a></td></tr>
+    <tr><td>Coords</td><td><a href="/system/{{.System.Id}}">{{.Coords}}</a> #{{.Orbit}}</td></tr>
+    <tr>
+      <td style="vertical-align: top">Atmosphere</td>
+      <td>
+        {{with .Atmosphere}}
+          <table>
+            <thead>
+            <tr><td>Code</td><td>Name</td><td>Percentage</td></tr>
+            </thead>
+            <tbody>
+            {{range .}}<tr><td>{{.Code}}</td><td>{{.Name}}</td><td>{{.Pct}}</td></tr>{{end}}
+            </tbody>
+          </table>
+        {{else}}
+          This system has no atmosphere.
+        {{end}}
+      </td>
+    </tr>
+    <tr><td>Diameter</td><td>{{.Diameter}}</td></tr>
+    <tr><td>Gravity</td><td>{{.Gravity}}</td></tr>
+    <tr><td>Message</td><td>{{.Message}}</td></tr>
+    <tr><td>Mining Difficulty</td><td>{{.MiningDifficultyBase}}</td></tr>
+    <tr><td>Mining Difficulty Increase</td><td>{{.MiningDifficultyIncrease}}</td></tr>
+    <tr><td>PressureClass</td><td>{{.PressureClass}}</td></tr>
+    <tr><td>Temperature Class</td><td>{{.TemperatureClass}}</td></tr>
+    <tr><td>Ideal Colony Planet?</td><td>{{.Is.IdealColonyPlanet}}</td></tr>
+    <tr><td>Ideal Home Planet?</td><td>{{.Is.IdealHomePlanet}}</td></tr>
+    <tr><td>Radioactive Hellhole?</td><td>{{.Is.RadioactiveHellHole}}</td></tr>
+    <tr>
+      <td style="vertical-align: top">Colonies</td>
+      <td>
+        {{with .Colonies}}
+          <table>
+            <thead>
+            <tr><td>Species</td><td>ID</td><td>Name</td></tr>
+            </thead>
+            <tbody>
+            {{range .}}<tr><td><a href="/specie/{{.Species.Id}}">{{.Species.Id}}</a> {{.Species.Name}}</td><td><a href="/specie/{{.Species.Id}}/colony/{{.Id}}">{{.Id}}</a></td><td>{{.Name}}</td></tr>{{end}}
+            </tbody>
+          </table>
+        {{else}}
+          This planet has no colonies.
+        {{end}}
+      </td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

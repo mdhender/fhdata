@@ -23,6 +23,8 @@
 
 package fhdata
 
+import "fmt"
+
 type AtmosphericGas struct {
 	Gas
 	Pct int
@@ -61,6 +63,10 @@ func (c Coords) Less(o Coords) bool {
 	return c.Z < o.Z
 }
 
+func (c Coords) String() string {
+	return fmt.Sprintf("%d, %d, %d", c.X, c.Y, c.Z)
+}
+
 type Colony struct {
 	Id         int
 	Coords     Coords
@@ -78,6 +84,7 @@ type Colony struct {
 		Populated       bool
 		ResortColony    bool
 	}
+	LSN               int
 	ManufacturingBase int
 	Message           int
 	MiningBase        int
@@ -85,6 +92,7 @@ type Colony struct {
 	Orbit             int // the first orbit is 1
 	Planet            *Planet
 	PopulationUnits   int
+	Production        int
 	Shipyards         int
 	SiegeEffPct       int
 	Species           *Species
@@ -167,6 +175,7 @@ type Ship struct {
 	Status             int
 	SubLight           bool
 	Tonnage            int
+	TotalCost          int
 	UnderConstruction  bool
 	UnloadingPoint     *Colony
 }

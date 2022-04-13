@@ -32,14 +32,14 @@ import (
 )
 
 func main() {
-	host, port := "", "8080"
+	host, port := "", "9187"
 
 	cluster, err := fhdata.LoadFromPath(".", binary.LittleEndian)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	s, err := NewServer(host, port, WithStore(cluster), WithTemplates("D:\\GoLand\\fhdata\\templates"))
+	s, err := NewServer(host, port, WithStore(cluster), WithTemplates("..\\templates"))
 	if err != nil {
 		log.Fatal(err)
 	}
