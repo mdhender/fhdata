@@ -94,7 +94,11 @@
       </table>
       {{end}}
     </td>
-    <td>{{if eq 1 (len .Planet.Colonies)}} {{else}}shared{{end}}</td>
+    <td>
+      {{if not (eq 1 (len .Planet.Colonies))}}shared{{end}}
+      {{if lt .LSN 7}}resort{{end}}
+      {{if lt .Species.LS.CurrentLevel .LSN}}uninhabitable{{end}}
+    </td>
   </tr>
   {{end}}
   </tbody>

@@ -139,6 +139,7 @@ type Planet struct {
 		IdealHomePlanet     bool
 		RadioactiveHellHole bool
 	}
+	LSN                      []int // indexed by species index (zero based)
 	Message                  int
 	MiningDifficultyBase     int
 	MiningDifficultyIncrease int

@@ -360,5 +360,55 @@ func LoadFromPath(dataPath string, bo binary.ByteOrder) (*Cluster, error) {
 		}
 	}
 
+	// calculate the amount of life support needed for each species and planet
+	for _, planet := range cluster.Planets {
+		planet.LSN = make([]int, len(cluster.Species), len(cluster.Species))
+		for i, species := range cluster.Species {
+			// assuming required gas is NOT present and so requires 3 points of life support
+			planet.LSN[i] = 3
+			// temperature class requires 3 points of LS per point of difference
+			tc := planet.TemperatureClass - species.HomePlanet.TemperatureClass
+			if tc < 0 {
+				tc = -tc
+			}
+			// each point of difference requires 3 points of life support
+			planet.LSN[i] += 3 * tc
+			// pressure class requires 3 points of LS per point of difference
+			pc := planet.PressureClass - species.HomePlanet.PressureClass
+			if pc < 0 {
+				pc = -pc
+			}
+			planet.LSN[i] += 3 * pc
+			for _, atmo := range planet.Atmosphere {
+				// check if the slot has gas
+				if atmo.Pct != 0 {
+					// check if required gas is present
+					if atmo.Code == species.Gases.Required.Code {
+						// and in the right amount
+						if species.Gases.Required.MinPct <= atmo.Pct && atmo.Pct <= species.Gases.Required.MaxPct {
+							// required gas is present and in the right amount, so undo 3 points of life support
+							planet.LSN[i] -= 3
+						}
+					} else {
+						// check if it is a poisonous gas
+						for _, poison := range species.Gases.Poison {
+							if atmo.Code == poison.Code {
+								// each poisonous gas requires 3 points of life support
+								planet.LSN[i] += 3
+								break
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// copy the life support into the colonies
+	for i, species := range cluster.Species {
+		for _, colony := range species.Colonies {
+			colony.LSN = colony.Planet.LSN[i]
+		}
+	}
 	return cluster, nil
 }
