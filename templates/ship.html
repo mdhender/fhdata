@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FHData</title>
+  <style media="screen">
+    table {
+      border: 2px solid black;
+    }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="/home">Home</a> | <a href="/systems">Systems</a> | <a href="/planets">Planets</a> | <a href="/species">Species</a>
+</nav>
+<h1>Species {{.Species.Id}} {{.Species.Name}} | Ship {{.Id}} {{.Name}}</h1>
+<table>
+  <tbody>
+    <tr><td>ID</td><td align="right"><a href="/specie/{{.Species.Id}}/ship/{{.Id}}">{{.Id}}</a></td></tr>
+    <tr><td>Class</td><td>{{.Class}}{{if eq .Class "TR"}}{{.Size}}{{end}}{{if .SubLight}}S{{end}}</td></tr>
+    <tr><td>Name</td><td>{{.Name}}</td></tr>
+    <tr><td>Coords</td><td>{{if .Location.System}}<a href="/system/{{.Location.System.Id}}">{{end}}{{.Coords}}{{if .Location.System}}</a>{{end}}</td></tr>
+    <tr><td>Orbit</td><td align="right">{{if .Location.Planet}}<a href="/planet/{{.Location.Planet.Id}}">{{end}}#{{.Orbit}}{{if .Location.Planet}}</a>{{end}}</td></tr>
+    <tr><td>Age</td><td align="right">{{.Age}}</td></tr>
+    <tr><td>Tonnage</td><td align="right">{{.Tonnage}}</td></tr>
+    <tr><td>Cargo Capacity</td><td align="right">{{.CargoCapacity}}</td></tr>
+  </tbody>
+</table>
+<h2>Inventory</h2>
+{{with .Inventory}}
+<table>
+  <thead>
+    <tr>
+      <td>Code</td>
+      <td>Descr</td>
+      <td>Quantity</td>
+      <td>Storage</td>
+      <td>Cost</td>
+    </tr>
+  </thead>
+  <tbody>
+  {{range .}}
+  <tr>
+    <td>{{.Code}}</td>
+    <td>{{.Name}}</td>
+    <td align="right">{{.Quantity}}</td>
+    <td align="right">{{.Cargo}}</td>
+    <td align="right">{{.Cost}}</td>
+  </tr>
+  {{end}}
+  </tbody>
+</table>
+{{else}}
+No cargo on this ship.
+{{end}}
+</body>
+</html>

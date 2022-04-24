@@ -118,6 +118,8 @@ type Item struct {
 	Code     string
 	Name     string
 	Quantity int
+	Cost     int
+	Cargo    int // units of carrying capacity required to transport item
 }
 
 type Location struct {

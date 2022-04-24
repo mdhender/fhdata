@@ -58,6 +58,7 @@ func NewServer(host, port string, opts ...func(*Server) error) (*Server, error) 
 	s.router.HandleFunc("GET", "/planet/:id", s.getPlanet())
 	s.router.HandleFunc("GET", "/species", s.getSpecies())
 	s.router.HandleFunc("GET", "/specie/:id", s.getSpecie())
+	s.router.HandleFunc("GET", "/specie/:id/ship/:sid", s.getSpecieShip())
 	s.router.HandleFunc("GET", "/systems", s.getSystems())
 	s.router.HandleFunc("GET", "/system/:id", s.getSystem())
 	s.router.NotFound = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -169,6 +170,34 @@ func (s *Server) getSpecie() http.HandlerFunc {
 		b, err := s.render("specie", specie)
 		if err != nil {
 			log.Printf("getSpecie: %s %s: %+v\n", r.Method, r.URL.Path, err)
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		_, _ = w.Write(b)
+	}
+}
+
+func (s *Server) getSpecieShip() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("getSpecieShip: %s %s\n", r.Method, r.URL.Path)
+		id, err := strconv.Atoi(way.Param(r.Context(), "id"))
+		if err != nil || !(0 < id && id <= len(s.data.Species)) {
+			log.Printf("getSpecie: %s %s: %+v\n", r.Method, r.URL.Path, err)
+			http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+			return
+		}
+		specie := s.data.Species[id-1]
+		shipId, err := strconv.Atoi(way.Param(r.Context(), "sid"))
+		if err != nil || !(0 < shipId && shipId <= len(specie.Ships)) {
+			log.Printf("getSpecieShip: %s %s: %+v\n", r.Method, r.URL.Path, err)
+			http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+			return
+		}
+		ship := specie.Ships[shipId-1]
+		b, err := s.render("ship", ship)
+		if err != nil {
+			log.Printf("getSpecieShip: %s %s: %+v\n", r.Method, r.URL.Path, err)
 			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 			return
 		}

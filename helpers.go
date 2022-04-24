@@ -59,81 +59,81 @@ func codeToGas(code int) Gas {
 func codeToItem(code int, qty int) Item {
 	switch code {
 	case 0:
-		return Item{Code: "RM", Name: "Raw Material Unit", Quantity: qty}
+		return Item{Code: "RM", Name: "Raw Material Unit", Quantity: qty, Cost: 1, Cargo: 1}
 	case 1:
-		return Item{Code: "PD", Name: "Planetary Defense Unit", Quantity: qty}
+		return Item{Code: "PD", Name: "Planetary Defense Unit", Quantity: qty, Cost: 1, Cargo: 3}
 	case 2:
-		return Item{Code: "SU", Name: "Starbase Unit", Quantity: qty}
+		return Item{Code: "SU", Name: "Starbase Unit", Quantity: qty, Cost: 110, Cargo: 20}
 	case 3:
-		return Item{Code: "DR", Name: "Damage Repair Unit", Quantity: qty}
+		return Item{Code: "DR", Name: "Damage Repair Unit", Quantity: qty, Cost: 50, Cargo: 1}
 	case 4:
-		return Item{Code: "CU", Name: "Colonist Unit", Quantity: qty}
+		return Item{Code: "CU", Name: "Colonist Unit", Quantity: qty, Cost: 1, Cargo: 1}
 	case 5:
-		return Item{Code: "IU", Name: "Colonial Mining Unit", Quantity: qty}
+		return Item{Code: "IU", Name: "Colonial Mining Unit", Quantity: qty, Cost: 1, Cargo: 1}
 	case 6:
-		return Item{Code: "AU", Name: "Colonial Manufacturing Unit", Quantity: qty}
+		return Item{Code: "AU", Name: "Colonial Manufacturing Unit", Quantity: qty, Cost: 1, Cargo: 1}
 	case 7:
-		return Item{Code: "FS", Name: "Fail-Safe Jump Unit", Quantity: qty}
+		return Item{Code: "FS", Name: "Fail-Safe Jump Unit", Quantity: qty, Cost: 25, Cargo: 1}
 	case 8:
-		return Item{Code: "JP", Name: "Jump Portal Unit", Quantity: qty}
+		return Item{Code: "JP", Name: "Jump Portal Unit", Quantity: qty, Cost: 100, Cargo: 10}
 	case 9:
-		return Item{Code: "FM", Name: "Forced Misjump Unit", Quantity: qty}
+		return Item{Code: "FM", Name: "Forced Misjump Unit", Quantity: qty, Cost: 100, Cargo: 5}
 	case 10:
-		return Item{Code: "FJ", Name: "Forced Jump Unit", Quantity: qty}
+		return Item{Code: "FJ", Name: "Forced Jump Unit", Quantity: qty, Cost: 125, Cargo: 5}
 	case 11:
-		return Item{Code: "GT", Name: "Gravitic Telescope Unit", Quantity: qty}
+		return Item{Code: "GT", Name: "Gravitic Telescope Unit", Quantity: qty, Cost: 500, Cargo: 20}
 	case 12:
-		return Item{Code: "FD", Name: "Field Distortion Unit", Quantity: qty}
+		return Item{Code: "FD", Name: "Field Distortion Unit", Quantity: qty, Cost: 50, Cargo: 1}
 	case 13:
-		return Item{Code: "TP", Name: "Terraforming Plant", Quantity: qty}
+		return Item{Code: "TP", Name: "Terraforming Plant", Quantity: qty, Cost: 50000, Cargo: 100}
 	case 14:
-		return Item{Code: "GW", Name: "Germ Warfare Bomb", Quantity: qty}
+		return Item{Code: "GW", Name: "Germ Warfare Bomb", Quantity: qty, Cost: 1000, Cargo: 100}
 	case 15:
-		return Item{Code: "SG1", Name: "Mark-1 Shield Generator", Quantity: qty}
+		return Item{Code: "SG1", Name: "Mark-1 Shield Generator", Quantity: qty, Cost: 250, Cargo: 5}
 	case 16:
-		return Item{Code: "SG2", Name: "Mark-2 Shield Generator", Quantity: qty}
+		return Item{Code: "SG2", Name: "Mark-2 Shield Generator", Quantity: qty, Cost: 500, Cargo: 10}
 	case 17:
-		return Item{Code: "SG3", Name: "Mark-3 Shield Generator", Quantity: qty}
+		return Item{Code: "SG3", Name: "Mark-3 Shield Generator", Quantity: qty, Cost: 750, Cargo: 15}
 	case 18:
-		return Item{Code: "SG4", Name: "Mark-4 Shield Generator", Quantity: qty}
+		return Item{Code: "SG4", Name: "Mark-4 Shield Generator", Quantity: qty, Cost: 1000, Cargo: 20}
 	case 19:
-		return Item{Code: "SG5", Name: "Mark-5 Shield Generator", Quantity: qty}
+		return Item{Code: "SG5", Name: "Mark-5 Shield Generator", Quantity: qty, Cost: 1250, Cargo: 25}
 	case 20:
-		return Item{Code: "SG6", Name: "Mark-6 Shield Generator", Quantity: qty}
+		return Item{Code: "SG6", Name: "Mark-6 Shield Generator", Quantity: qty, Cost: 1500, Cargo: 30}
 	case 21:
-		return Item{Code: "SG7", Name: "Mark-7 Shield Generator", Quantity: qty}
+		return Item{Code: "SG7", Name: "Mark-7 Shield Generator", Quantity: qty, Cost: 1750, Cargo: 35}
 	case 22:
-		return Item{Code: "SG8", Name: "Mark-8 Shield Generator", Quantity: qty}
+		return Item{Code: "SG8", Name: "Mark-8 Shield Generator", Quantity: qty, Cost: 2000, Cargo: 40}
 	case 23:
-		return Item{Code: "SG9", Name: "Mark-9 Shield Generator", Quantity: qty}
+		return Item{Code: "SG9", Name: "Mark-9 Shield Generator", Quantity: qty, Cost: 2250, Cargo: 45}
 	case 24:
-		return Item{Code: "GU1", Name: "Mark-1 Gun Unit", Quantity: qty}
+		return Item{Code: "GU1", Name: "Mark-1 Gun Unit", Quantity: qty, Cost: 250, Cargo: 5}
 	case 25:
-		return Item{Code: "GU2", Name: "Mark-2 Gun Unit", Quantity: qty}
+		return Item{Code: "GU2", Name: "Mark-2 Gun Unit", Quantity: qty, Cost: 500, Cargo: 10}
 	case 26:
-		return Item{Code: "GU3", Name: "Mark-3 Gun Unit", Quantity: qty}
+		return Item{Code: "GU3", Name: "Mark-3 Gun Unit", Quantity: qty, Cost: 750, Cargo: 15}
 	case 27:
-		return Item{Code: "GU4", Name: "Mark-4 Gun Unit", Quantity: qty}
+		return Item{Code: "GU4", Name: "Mark-4 Gun Unit", Quantity: qty, Cost: 1000, Cargo: 20}
 	case 28:
-		return Item{Code: "GU5", Name: "Mark-5 Gun Unit", Quantity: qty}
+		return Item{Code: "GU5", Name: "Mark-5 Gun Unit", Quantity: qty, Cost: 1250, Cargo: 25}
 	case 29:
-		return Item{Code: "GU6", Name: "Mark-6 Gun Unit", Quantity: qty}
+		return Item{Code: "GU6", Name: "Mark-6 Gun Unit", Quantity: qty, Cost: 1500, Cargo: 30}
 	case 30:
-		return Item{Code: "GU7", Name: "Mark-7 Gun Unit", Quantity: qty}
+		return Item{Code: "GU7", Name: "Mark-7 Gun Unit", Quantity: qty, Cost: 1750, Cargo: 35}
 	case 31:
-		return Item{Code: "GU8", Name: "Mark-8 Gun Unit", Quantity: qty}
+		return Item{Code: "GU8", Name: "Mark-8 Gun Unit", Quantity: qty, Cost: 2000, Cargo: 40}
 	case 32:
-		return Item{Code: "GU9", Name: "Mark-9 Gun Unit", Quantity: qty}
+		return Item{Code: "GU9", Name: "Mark-9 Gun Unit", Quantity: qty, Cost: 2250, Cargo: 45}
 	case 33:
-		return Item{Code: "X1", Name: "X1 Unit", Quantity: qty}
+		return Item{Code: "X1", Name: "X1 Unit", Quantity: qty, Cost: 9999, Cargo: 9999}
 	case 34:
-		return Item{Code: "X2", Name: "X2 Unit", Quantity: qty}
+		return Item{Code: "X2", Name: "X2 Unit", Quantity: qty, Cost: 9999, Cargo: 9999}
 	case 35:
-		return Item{Code: "X3", Name: "X3 Unit", Quantity: qty}
+		return Item{Code: "X3", Name: "X3 Unit", Quantity: qty, Cost: 9999, Cargo: 9999}
 	case 36:
-		return Item{Code: "X4", Name: "X4 Unit", Quantity: qty}
+		return Item{Code: "X4", Name: "X4 Unit", Quantity: qty, Cost: 9999, Cargo: 9999}
 	case 37:
-		return Item{Code: "X5", Name: "X5 Unit", Quantity: qty}
+		return Item{Code: "X5", Name: "X5 Unit", Quantity: qty, Cost: 9999, Cargo: 9999}
 	default:
 		return Item{}
 	}

@@ -15,39 +15,26 @@
 </nav>
 <h1>Species {{.Id}} {{.Name}}</h1>
 <table>
-  <thead>
-  <tr>
-    <td>ID</td>
-    <td>Name</td>
-    <td>MI</td>
-    <td>MA</td>
-    <td>ML</td>
-    <td>GV</td>
-    <td>LS</td>
-    <td>BI</td>
-    <td>Systems Visited</td>
-    <td>Colonies</td>
-    <td>Ships</td>
-    <td>Production</td>
-    <td>EUs Banked</td>
-  </tr>
-  </thead>
   <tbody>
-  <tr>
-    <td><a href="/specie/{{.Id}}">{{.Id}}</a></td>
-    <td>{{.Name}}</td>
-    <td align="right">{{.MI.CurrentLevel}}</td>
-    <td align="right">{{.MA.CurrentLevel}}</td>
-    <td align="right">{{.ML.CurrentLevel}}</td>
-    <td align="right">{{.GV.CurrentLevel}}</td>
-    <td align="right">{{.LS.CurrentLevel}}</td>
-    <td align="right">{{.BI.CurrentLevel}}</td>
-    <td align="right">{{len .SystemsVisited}}</td>
-    <td align="right">{{len .Colonies}}</td>
-    <td align="right">{{len .Ships}}</td>
-    <td align="right">{{.EconUnitsProduced}}</td>
-    <td align="right">{{.EconUnitsBanked}}</td>
-  </tr>
+    <tr><td>ID</td><td><a href="/specie/{{.Id}}">{{.Id}}</a></td></tr>
+    <tr><td>Name</td><td>{{.Name}}</td></tr>
+    <tr><td>Systems Visited</td><td align="right">{{len .SystemsVisited}}</td></tr>
+    <tr><td>Colonies</td><td align="right">{{len .Colonies}}</td></tr>
+    <tr><td>Ships</td><td align="right">{{len .Ships}}</td></tr>
+    <tr><td>Production</td><td align="right">{{.EconUnitsProduced}}</td></tr>
+    <tr><td>EUs Banked</td><td align="right">{{.EconUnitsBanked}}</td></tr>
+  </tbody>
+</table>
+<h2>Technology</h2>
+<table>
+  <thead><tr><td>Tech</td><td>Level</td><td>Knowledge</td><td>Initial</td><td>XPs</td></tr></thead>
+  <tbody>
+  <tr><td>MI</td><td align="right">{{.MI.CurrentLevel}}</td><td align="right">{{.MI.KnowledgeLevel}}</td><td align="right">{{.MI.InitialLevel}}</td><td align="right">{{.MI.XPs}}</td></tr>
+  <tr><td>MA</td><td align="right">{{.MA.CurrentLevel}}</td><td align="right">{{.MA.KnowledgeLevel}}</td><td align="right">{{.MA.InitialLevel}}</td><td align="right">{{.MA.XPs}}</td></tr>
+  <tr><td>ML</td><td align="right">{{.ML.CurrentLevel}}</td><td align="right">{{.ML.KnowledgeLevel}}</td><td align="right">{{.ML.InitialLevel}}</td><td align="right">{{.ML.XPs}}</td></tr>
+  <tr><td>GV</td><td align="right">{{.GV.CurrentLevel}}</td><td align="right">{{.GV.KnowledgeLevel}}</td><td align="right">{{.GV.InitialLevel}}</td><td align="right">{{.GV.XPs}}</td></tr>
+  <tr><td>LS</td><td align="right">{{.LS.CurrentLevel}}</td><td align="right">{{.LS.KnowledgeLevel}}</td><td align="right">{{.LS.InitialLevel}}</td><td align="right">{{.LS.XPs}}</td></tr>
+  <tr><td>BI</td><td align="right">{{.BI.CurrentLevel}}</td><td align="right">{{.BI.KnowledgeLevel}}</td><td align="right">{{.BI.InitialLevel}}</td><td align="right">{{.BI.XPs}}</td></tr>
   </tbody>
 </table>
 <h2>Colonies</h2>
@@ -65,13 +52,13 @@
     <td>MA Base</td>
     <td>Production</td>
     <td>Inventory</td>
-    <td>Warnings</td>
+    <td>Flags</td>
   </tr>
   </thead>
   <tbody>
   {{range .}}
   <tr>
-    <td><a href="/specie/{{.Species.Id}}/colony{{.Id}}">{{.Id}}</a></td>
+    <td align="right"><a href="/specie/{{.Species.Id}}/colony/{{.Id}}">{{.Id}}</a></td>
     <td>{{.Name}}</td>
     <td><a href="/system/{{.System.Id}}">{{.Coords}}</a></td>
     <td align="right"><a href="/planet/{{.Planet.Id}}">#{{.Orbit}}</a></td>
@@ -126,7 +113,7 @@
   {{range .}}
   {{if eq "BA" .Class}}
   <tr>
-    <td><a href="/specie/{{.Species.Id}}/ship{{.Id}}">{{.Id}}</a></td>
+    <td align="right"><a href="/specie/{{.Species.Id}}/ship/{{.Id}}">{{.Id}}</a></td>
     <td>{{.Class}}{{if .SubLight}}S{{end}}</td>
     <td>{{.Name}}</td>
     <td>{{if .Location.System}}<a href="/system/{{.Location.System.Id}}">{{end}}{{.Coords}}{{if .Location.System}}</a>{{end}}</td>
@@ -174,7 +161,7 @@
   {{range .}}
   {{if and (ne "BA" .Class) (ne "TR" .Class)}}
   <tr>
-    <td><a href="/specie/{{.Species.Id}}/ship{{.Id}}">{{.Id}}</a></td>
+    <td align="right"><a href="/specie/{{.Species.Id}}/ship/{{.Id}}">{{.Id}}</a></td>
     <td>{{.Class}}{{if .SubLight}}S{{end}}</td>
     <td>{{.Name}}</td>
     <td>{{if .Location.System}}<a href="/system/{{.Location.System.Id}}">{{end}}{{.Coords}}{{if .Location.System}}</a>{{end}}</td>
@@ -221,7 +208,7 @@
   {{range .}}
   {{if eq "TR" .Class}}
   <tr>
-    <td><a href="/specie/{{.Species.Id}}/ship{{.Id}}">{{.Id}}</a></td>
+    <td align="right"><a href="/specie/{{.Species.Id}}/ship/{{.Id}}">{{.Id}}</a></td>
     <td>{{.Class}}{{.Size}}{{if .SubLight}}S{{end}}</td>
     <td>{{.Name}}</td>
     <td>{{if .Location.System}}<a href="/system/{{.Location.System.Id}}">{{end}}{{.Coords}}{{if .Location.System}}</a>{{end}}</td>
@@ -250,3 +237,25 @@
 {{end}}
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

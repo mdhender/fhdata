@@ -256,7 +256,10 @@ func LoadFromPath(dataPath string, bo binary.ByteOrder) (*Cluster, error) {
 			}
 			for code, qty := range nampla.ItemQuantity {
 				if qty != 0 {
-					colony.Inventory = append(colony.Inventory, codeToItem(code, int(qty)))
+					item := codeToItem(code, int(qty))
+					item.Cargo *= int(qty)
+					item.Cost *= int(qty)
+					colony.Inventory = append(colony.Inventory, item)
 				}
 			}
 			colony.Is.Colony = (nampla.Status & COLONY) != 0
@@ -313,7 +316,10 @@ func LoadFromPath(dataPath string, bo binary.ByteOrder) (*Cluster, error) {
 
 			for code, qty := range sh.ItemQuantity {
 				if qty != 0 {
-					ship.Inventory = append(ship.Inventory, codeToItem(code, int(qty)))
+					item := codeToItem(code, int(qty))
+					item.Cargo *= int(qty)
+					item.Cost *= int(qty)
+					ship.Inventory = append(ship.Inventory, item)
 				}
 			}
 			for _, system := range cluster.Systems {
